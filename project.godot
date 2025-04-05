@@ -13,3 +13,11 @@ config_version=5
 config/name="Skycrawl"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Flying Entities"
+2d_physics/layer_4="Earth Entities"
+2d_physics/layer_8="Hurtbox"
