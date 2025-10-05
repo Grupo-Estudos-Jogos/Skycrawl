@@ -10,7 +10,15 @@ extends CharacterBody2D
 @export var run_acceleration: float = 1000
 @export var friction: float = 800
 
-@onready var animation = $AnimatedSprite2D as AnimatedSprite2D
+@onready var animation_tree = $AnimationTree as AnimationTree
+@onready var animation_playback = animation_tree["parameters/playback"] as AnimationNodeStateMachinePlayback
+
+const ANIMATION_STATES: PackedStringArray = [
+	"Idle",
+	"Run",
+	"Walk",
+]
+
 
 func _ready() -> void:
 	pass
@@ -21,22 +29,26 @@ func _physics_process(delta: float) -> void:
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	)
 	if horizontal_dir != 0:
-		animation.flip_h = true if horizontal_dir < 0 else false
+		_set_blend_position(horizontal_dir)
 
 		if Input.is_action_pressed("run"):
 			velocity.x = move_toward(velocity.x, max_speed * horizontal_dir, run_acceleration * delta)
-			animation.play("run")
+			animation_playback.travel("Run")
 		else:
 			velocity.x = move_toward(velocity.x, max_speed * horizontal_dir, walk_acceleration * delta)
-			animation.play("walk")
+			animation_playback.travel("Walk")
 	else:
 		velocity.x = move_toward(velocity.x, 0, friction * delta)
-		animation.play("idle")
+		animation_playback.travel("Idle")
 
-	if not is_on_floor():
-		velocity.y += gravity
-
+	velocity.y += gravity
 	if Input.is_action_just_pressed("move_up") and is_on_floor():
 		velocity.y = -jump_force
 
 	move_and_slide()
+
+
+func _set_blend_position(blend_pos: float) -> void:
+	for state in ANIMATION_STATES:
+		var blend_path: String = "parameters/%s/blend_position" % state
+		animation_tree.set(blend_path, blend_pos)

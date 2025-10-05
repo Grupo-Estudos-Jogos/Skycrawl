@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb4vhnfcwu3i"
-path="res://.godot/imported/player.png-5e2e7e7552b041428056885c13411183.ctex"
+uid="uid://cb5t1q4cg2oee"
+path="res://.godot/imported/temporario.png-b18407505d3d0332a9cd38341ddb2c4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/player/player.png"
-dest_files=["res://.godot/imported/player.png-5e2e7e7552b041428056885c13411183.ctex"]
+source_file="res://images/temporario.png"
+dest_files=["res://.godot/imported/temporario.png-b18407505d3d0332a9cd38341ddb2c4b.ctex"]
 
 [params]
 
