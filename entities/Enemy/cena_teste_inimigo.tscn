@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6t5ifjlf0mas"]
+
+[ext_resource type="Texture2D" uid="uid://c3wfqhsss6gqy" path="res://images/Drone.png" id="1_qny8u"]
+[ext_resource type="Script" uid="uid://bjkdqek7rwrs7" path="res://entities/Enemy/cena_teste_inimigo.gd" id="1_xlr6y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xlr6y"]
+radius = 4.0
+height = 20.0
+
+[sub_resource type="Animation" id="Animation_cvpcs"]
+resource_name = "move"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("INIMIGO:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xlr6y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("INIMIGO:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ttw0l"]
+_data = {
+&"RESET": SubResource("Animation_xlr6y"),
+&"move": SubResource("Animation_cvpcs")
+}
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xlr6y"]
+b = Vector2(5, 0)
+
+[node name="Cena_teste_inimigo" type="CharacterBody2D"]
+script = ExtResource("1_xlr6y")
+
+[node name="INIMIGO" type="Sprite2D" parent="."]
+position = Vector2(-0.5, 0)
+texture = ExtResource("1_qny8u")
+hframes = 5
+vframes = 4
+frame = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xlr6y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ttw0l")
+}
+autoplay = "move"
+speed_scale = 0.5
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 20)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2, -11)
+shape = SubResource("SegmentShape2D_xlr6y")
+debug_color = Color(1, 0.003921569, 0.09019608, 0.5137255)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
