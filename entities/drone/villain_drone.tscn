@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8pw43apkbsp7"]
+
+[ext_resource type="Script" path="res://entities/drone/drone.gd" id="1_hrf6w"]
+[ext_resource type="Texture2D" uid="uid://bbg5orsypa7bu" path="res://art/enemy/villain_drone_run.png" id="2_1k4bs"]
+[ext_resource type="Texture2D" uid="uid://b3hyodcbagq4u" path="res://art/enemy/villain_drone_attack.png" id="2_75kpd"]
+[ext_resource type="Texture2D" uid="uid://bn77qh6q2xwe4" path="res://art/enemy/villain_drone_up.png" id="3_jvx4y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fcfw1"]
+radius = 323.748
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8jlcw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_75kpd")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_1k4bs")
+}],
+"loop": true,
+"name": &"run",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jvx4y")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[node name="Drone" type="CharacterBody2D"]
+scale = Vector2(0.01, 0.01)
+script = ExtResource("1_hrf6w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fcfw1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8jlcw")
+animation = &"up"
+autoplay = "run"
