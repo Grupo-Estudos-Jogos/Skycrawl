@@ -1,11 +1,16 @@
-[gd_scene load_steps=14 format=4 uid="uid://dp1o83nikpv8s"]
+[gd_scene load_steps=20 format=4 uid="uid://dp1o83nikpv8s"]
 
 [ext_resource type="Texture2D" uid="uid://d0lypulx8sld6" path="res://images/chão 1.png" id="1_s1obt"]
+[ext_resource type="PackedScene" uid="uid://dvdd12crbe8ei" path="res://scenes/aux_chao.tscn" id="2_c3xfj"]
 [ext_resource type="Script" uid="uid://ceuib4m4arbgl" path="res://scenes/static_body_2d.gd" id="2_hjwej"]
 [ext_resource type="Texture2D" uid="uid://dwdwtuasa4pym" path="res://images/Chest.png" id="2_wv38l"]
+[ext_resource type="PackedScene" uid="uid://27i8iregivck" path="res://components/boxes/Hurtbox.tscn" id="3_c3xfj"]
+[ext_resource type="PackedScene" uid="uid://0ksnuemerxjx" path="res://scenes/coracao.tscn" id="3_e2ht2"]
 [ext_resource type="Texture2D" uid="uid://djqmgt1ndj1ri" path="res://images/ChestOpen.png" id="3_wv38l"]
 [ext_resource type="PackedScene" uid="uid://dw2rqt2n3wn82" path="res://entities/player/player.tscn" id="5_hbhp6"]
-[ext_resource type="PackedScene" uid="uid://dtodfpyd78u6j" path="res://scenes/porta_lvolta.tscn" id="6_hbhp6"]
+[ext_resource type="PackedScene" uid="uid://kbtp28hxbljn" path="res://scenes/plataforma.tscn" id="7_jutsd"]
+[ext_resource type="PackedScene" uid="uid://dpdb5vtlhu3j1" path="res://scenes/canhão.tscn" id="8_5anco"]
+[ext_resource type="PackedScene" uid="uid://pkeuk7xhpp30" path="res://scenes/alavanca.tscn" id="11_n1be6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_77k13"]
 resource_name = "chao"
@@ -76,35 +81,6 @@ sources/1 = SubResource("TileSetAtlasSource_77k13")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_77k13"]
 size = Vector2(20, 14.333328)
 
-[sub_resource type="Animation" id="Animation_hjwej"]
-resource_name = "bau"
-length = 0.1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Chest:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("2_wv38l"), ExtResource("3_wv38l")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Chest:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="Animation" id="Animation_hbhp6"]
 length = 0.001
 tracks/0/type = "value"
@@ -138,6 +114,35 @@ tracks/2/path = NodePath("Chest:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_hjwej"]
+resource_name = "bau"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Chest:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("2_wv38l"), ExtResource("3_wv38l")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Chest:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -180,6 +185,10 @@ _data = {
 &"bau_2": SubResource("Animation_jutsd")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yqobi"]
+radius = 5.5999985
+height = 18.399994
+
 [node name="cena_teste2" type="Node2D"]
 
 [node name="Marker2D" type="Marker2D" parent="."]
@@ -189,8 +198,19 @@ scale = Vector2(0.99999994, 0.99999994)
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAYAAQADAAEAAAAAAAcAAQADAAEAAAAAAAgAAQADAAEAAAAAAAkAAQADAAEAAAABAAYAAQABAAAAAAABAAcAAQABAAEAAAABAAgAAQABAAIAAAABAAkAAQABAAMAAAACAAYAAQACAAAAAAACAAcAAQACAAEAAAACAAgAAQACAAIAAAACAAkAAQACAAMAAAADAAYAAQADAAAAAAADAAcAAQADAAEAAAADAAgAAQADAAIAAAADAAkAAQADAAMAAAAEAAYAAQAEAAAAAAAEAAcAAQAEAAEAAAAEAAgAAQAEAAIAAAAEAAkAAQAEAAMAAAAFAAYAAQAFAAAAAAAFAAcAAQAFAAEAAAAFAAgAAQAFAAIAAAAFAAkAAQAFAAMAAAAGAAYAAQAGAAAAAAAGAAcAAQAGAAEAAAAGAAgAAQAGAAIAAAAGAAkAAQAGAAMAAAAHAAYAAQAAAAAAAAAHAAcAAQAAAAEAAAAHAAgAAQAAAAIAAAAHAAkAAQAAAAMAAAAIAAYAAQABAAAAAAAIAAcAAQABAAEAAAAIAAgAAQABAAIAAAAIAAkAAQABAAMAAAAJAAYAAQACAAAAAAAJAAcAAQACAAEAAAAJAAgAAQACAAIAAAAJAAkAAQACAAMAAAAKAAYAAQADAAAAAAAKAAcAAQADAAEAAAAKAAgAAQADAAIAAAAKAAkAAQADAAMAAAALAAYAAQADAAAAAAALAAcAAQAAAAEAAAALAAgAAQAAAAIAAAALAAkAAQAAAAMAAAAMAAYAAQADAAAAAAAMAAcAAQABAAEAAAAMAAgAAQABAAIAAAAMAAkAAQABAAMAAAANAAYAAQADAAAAAAANAAcAAQACAAEAAAANAAgAAQACAAIAAAANAAkAAQACAAMAAAAOAAYAAQADAAAAAAAOAAcAAQADAAEAAAAOAAgAAQADAAIAAAAOAAkAAQADAAMAAAAPAAYAAQAEAAAAAAAPAAcAAQAEAAEAAAAPAAgAAQAEAAIAAAAPAAkAAQAEAAMAAAAQAAYAAQAFAAAAAAAQAAcAAQAFAAEAAAAQAAgAAQAFAAIAAAAQAAkAAQAFAAMAAAARAAYAAQADAAEAAAARAAcAAQADAAEAAAARAAgAAQADAAEAAAARAAkAAQADAAEAAAAAAAUAAQADAAAAAFAAAAQAAQADAAAAAFAAAAMAAQADAAAAAFAAAAIAAQADAAAAAFAAAAEAAQADAAAAAFAAAAAAAQADAAAAADABAAAAAQADAAAAADACAAAAAQADAAAAADADAAAAAQADAAAAADAEAAAAAQADAAAAADAFAAAAAQADAAAAADAGAAAAAQADAAAAADAHAAAAAQADAAAAADAIAAAAAQADAAAAADAJAAAAAQADAAAAADAKAAAAAQADAAAAADALAAAAAQADAAAAADAMAAAAAQADAAAAADANAAAAAQADAAAAADAOAAAAAQADAAAAADAPAAAAAQADAAAAADAQAAAAAQADAAAAADARAAAAAQADAAAAAGARAAEAAQADAAAAAGARAAIAAQADAAAAAGARAAMAAQADAAAAAGARAAQAAQADAAAAAGARAAUAAQADAAAAAGA=")
 tile_set = SubResource("TileSet_hjwej")
+collision_visibility_mode = 1
+
+[node name="aux_chao" parent="." instance=ExtResource("2_c3xfj")]
+tile_map_data = PackedByteArray("AAAuABUAAAABAAAAAAAvABUAAAABAAAAAAAwABUAAAABAAAAAABEABQAAAAAAAIAAABDABQAAAAAAAIAAABCABQAAAAAAAIAAABEABMAAAAAAAEAAABDABMAAAAAAAEAAABCABMAAAAAAAEAAAA1ABQAAAALAAMAAAA2ABQAAAALAAMAAAA3ABQAAAALAAMAAAA8ABQAAAAAAAIAAAA9ABQAAAAAAAIAAAA8ABMAAAABAAAAAAA9ABMAAAABAAAAAAA3ABMAAAABAAAAAAA2ABMAAAABAAAAAAA1ABMAAAABAAAAAAA=")
+
+[node name="coracao" parent="." instance=ExtResource("3_e2ht2")]
+position = Vector2(880, 365)
+collision_layer = 32768
+collision_mask = 32768
 
 [node name="bau" type="Area2D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
 script = ExtResource("2_hjwej")
 
 [node name="Chest" type="Sprite2D" parent="bau"]
@@ -208,13 +228,39 @@ libraries = {
 &"": SubResource("AnimationLibrary_jutsd")
 }
 
-[node name="PORTALvolta" parent="." instance=ExtResource("6_hbhp6")]
-position = Vector2(50, 324)
-scale = Vector2(3, 3)
+[node name="Plataforma" parent="." instance=ExtResource("7_jutsd")]
+position = Vector2(221, 419)
+
+[node name="Plataforma2" parent="." instance=ExtResource("7_jutsd")]
+position = Vector2(427, 419)
 
 [node name="Player" parent="." instance=ExtResource("5_hbhp6")]
 position = Vector2(105, 350)
 scale = Vector2(2.5, 2.5)
+collision_layer = 32769
+collision_mask = 32769
+
+[node name="Hurtbox" parent="Player" instance=ExtResource("3_c3xfj")]
+active = true
+invincibility_time = 0.25
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hurtbox"]
+position = Vector2(0, -3.9999998)
+shape = SubResource("CapsuleShape2D_yqobi")
+debug_color = Color(0.5647059, 0.19215687, 0.105882354, 0.54901963)
+
+[node name="aux" type="Sprite2D" parent="."]
+position = Vector2(574.99994, 425.125)
+scale = Vector2(2.4763947, 0.11462101)
+texture = ExtResource("1_s1obt")
+
+[node name="alavanca" parent="." instance=ExtResource("11_n1be6")]
+position = Vector2(1079, 303)
+scale = Vector2(2, 2)
+
+[node name="canhao" parent="." instance=ExtResource("8_5anco")]
+position = Vector2(1065, 360)
 
 [connection signal="body_entered" from="bau" to="bau" method="_on_body_entered"]
 [connection signal="body_exited" from="bau" to="bau" method="_on_body_exited"]
+[connection signal="alavancasinal" from="alavanca" to="canhao" method="_on_alavanca_alavancasinal"]

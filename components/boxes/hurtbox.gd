@@ -34,6 +34,7 @@ func _set_colors() -> void:
 
 
 func _detect_collision(node: Node) -> void:
+	print('bateu')
 	if not node is CollisionShape2D:
 		return
 
@@ -49,6 +50,7 @@ func _forget_collision(node: Node) -> void:
 
 
 func _on_Hitbox_entered(hitbox: Hitbox) -> void:
+	print('bateu')
 	hit.emit(hitbox.damage)
 
 	active = false

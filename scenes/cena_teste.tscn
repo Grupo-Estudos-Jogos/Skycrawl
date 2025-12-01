@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=4 uid="uid://dwwe7w0xstraj"]
+[gd_scene load_steps=11 format=4 uid="uid://dwwe7w0xstraj"]
 
 [ext_resource type="Texture2D" uid="uid://d0lypulx8sld6" path="res://images/chão 1.png" id="1_3gvut"]
 [ext_resource type="PackedScene" uid="uid://dw2rqt2n3wn82" path="res://entities/player/player.tscn" id="2_d14pn"]
 [ext_resource type="PackedScene" uid="uid://c6t5ifjlf0mas" path="res://entities/Enemy/cena_teste_inimigo.tscn" id="3_d14pn"]
+[ext_resource type="PackedScene" uid="uid://27i8iregivck" path="res://components/boxes/Hurtbox.tscn" id="4_1wk0x"]
 [ext_resource type="PackedScene" uid="uid://b37aqbvwhoqyn" path="res://scenes/portal.tscn" id="4_gvhvb"]
+[ext_resource type="PackedScene" uid="uid://dsyc3igbnw1na" path="res://components/boxes/Hitbox.tscn" id="4_xe3tx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gvhvb"]
 resource_name = "chao"
@@ -71,6 +73,14 @@ tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_gvhvb")
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jyonv"]
+radius = 5.5999985
+height = 18.399994
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7i8e6"]
+radius = 4.400009
+height = 18.399994
+
 [node name="Cena_Teste" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -82,13 +92,40 @@ position = Vector2(1100, 336.00003)
 scale = Vector2(2.5, 2.5)
 
 [node name="Player" parent="." instance=ExtResource("2_d14pn")]
-position = Vector2(209.00003, 383.00003)
+position = Vector2(209, 382)
 scale = Vector2(2.5, 2.5)
+
+[node name="Hurtbox" parent="Player" instance=ExtResource("4_1wk0x")]
+active = true
+invincibility_time = 0.25
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hurtbox"]
+position = Vector2(0, -3.9999998)
+shape = SubResource("CapsuleShape2D_jyonv")
+debug_color = Color(0.5647059, 0.19215687, 0.105882354, 0.54901963)
 
 [node name="Cena_teste_inimigo" parent="." instance=ExtResource("3_d14pn")]
 position = Vector2(596, 241)
 scale = Vector2(2.5, 2.5)
 
+[node name="Hitbox" parent="Cena_teste_inimigo" instance=ExtResource("4_xe3tx")]
+damage = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cena_teste_inimigo/Hitbox"]
+position = Vector2(0, 1.5999999)
+shape = SubResource("CapsuleShape2D_7i8e6")
+debug_color = Color(0, 0.6431373, 0.5058824, 0.54901963)
+
 [node name="Cena_teste_inimigo2" parent="." instance=ExtResource("3_d14pn")]
 position = Vector2(968, 253)
 scale = Vector2(2.5, 2.5)
+
+[node name="Hitbox" parent="Cena_teste_inimigo2" instance=ExtResource("4_xe3tx")]
+damage = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cena_teste_inimigo2/Hitbox"]
+position = Vector2(0, 1.5999999)
+shape = SubResource("CapsuleShape2D_7i8e6")
+debug_color = Color(0, 0.6431373, 0.5058824, 0.54901963)
+
+[connection signal="hit" from="Player/Hurtbox" to="Cena_teste_inimigo/Hitbox" method="_on_hurtbox_hit"]

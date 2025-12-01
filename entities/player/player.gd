@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var gravity: float = 50.0
 @export var jump_force: float = 700.0
 @export var max_speed: float = 300
+@export var speed_padrao: float = 300
 @export var walk_acceleration: float = 900
 @export var run_acceleration: float = 1000
 @export var friction: float = 800

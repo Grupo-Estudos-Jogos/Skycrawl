@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://0ksnuemerxjx"]
+
+[ext_resource type="Script" uid="uid://cx0eqwrw01a4v" path="res://coracao.gd" id="1_c0kj6"]
+[ext_resource type="Texture2D" uid="uid://jrr74a3icnj6" path="res://images/coracao.png" id="2_hpl2i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2fnr"]
+size = Vector2(20, 36)
+
+[node name="coracao" type="Area2D"]
+script = ExtResource("1_c0kj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hpl2i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 11)
+shape = SubResource("RectangleShape2D_f2fnr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

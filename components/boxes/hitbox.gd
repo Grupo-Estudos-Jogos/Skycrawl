@@ -26,12 +26,13 @@ func _set_color() -> void:
 
 
 func _detect_collision(node: Node) -> void:
+	print("bateu")
 	if not node is CollisionShape2D:
 		return
 
 	collisions.push_back(node)
 	node.debug_color = debug_color
-
+	print("bateu")
 
 func _forget_collision(node: Node) -> void:
 	if not node is CollisionShape2D:
